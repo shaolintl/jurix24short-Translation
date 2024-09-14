@@ -1,0 +1,76 @@
+In this section, we will give a possible methodology for a formalization process of legal texts by LLMs and therefore answer our RQ, introduced in the previous section.
+
+Our approach stems from the work done in \cite{libal2023legal}, which argued that a formalization language which is as close to the original legal text as possible is desired. The language defined in \cite{libal2023legal} has the isomorphism property - one can go from the legal text to its formalization and back to the legal text.
+
+To further develop this idea, our next question was whether an isomorphic language would be easier for an LLM to use as a formalization target.
+
+For this task, we have defined the following elements of the formalization language.
+
+\begin{definition}[The syntax]
+Formulas in our language are recursively defined by:
+\begin{itemize}
+    \item {\bf Propositions} are formulas named using camel case\footnote{https://en.wikipedia.org/wiki/Camel\_case}. 
+    For example, \texttt{havePatent}.
+    \item {\bf Qualifiers} are functions with one or more formulas as arguments and of boolean type. They are named using upper camel case. For example, \texttt{Right(havePatent)}.
+    \item {\bf Connectives} are any of the classical propositional relations, such as $\neg$, $\wedge$, $\Rightarrow$, $\Leftarrow$, etc.
+\end{itemize}
+Propositions and qualified formulas are both considered the atoms of the language.
+\end{definition}
+
+In order to allow maximal flexibility and capture comments and footnotes as well, we also allow free text to be included as an argument of a qualifier.
+
+\begin{example}
+    The following are examples of atoms:
+    \begin{itemize}
+    \item \texttt{Comment(commercialInvention, "Such exploitation[..]")}
+        \item \texttt{Exception(Right(grantPatent)} $\Leftarrow$ \texttt{notPatentableInvention)} 
+    \end{itemize}
+\end{example}
+
+The language itself does not ensure isomorphism. We therefore add the following requirements.
+
+\begin{definition}[Language Requirements]
+One of the key challenges in the automatic formalization of legal texts is the naming of propositions. We therefore place the following restriction on their names.
+\begin{itemize}
+\item Each proposition represents one legal concept. Its name must therefore represent the text as closely as possible, with the following exception: when a legal concept is used more than once in a legal text, its name must be general enough to cover all textual instances
+\end{itemize}
+In addition, we place the following restrictions on the formalization process:
+\begin{itemize}
+    \item Each proposition would represent a continuous section of the text. Propositions with overlapping texts are allowed.
+    \item Each qualifier represents a legal notion, such as obligations, exceptions, comments, etc. Qualifiers can only qualify formulas already occurring in the formula, including occurrences of qualified formulas.
+    \item Propositions occur in the formula in the exact same order as in the legal text.
+\end{itemize}
+\end{definition}
+
+Given that our language contains atoms and relations, we decided to use recent advances in data labeling for the extractions of entities and relations, such as the one in \cite{gutierrez2024hipporag}.
+
+\begin{definition}[The formalization]
+    Given a legal sentence, we extract its formalization in a two phases process:
+    \begin{enumerate}
+        \item We first extract all the atoms it contains, paired with the extracted text
+        \item We then extract the relationships between the atoms. All and only the atoms extracted in the previous step are used.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    The following is an example of the formalization process of the legal sentence "An invention shall be considered to be new if it does not form part of the state of the art"\footnote{European Patent Convention 54(1)}:
+    \begin{enumerate}
+        \item We extract the atoms 
+        \begin{itemize}
+            \item $\neg$\texttt{newInvention} with the text "An invention shall be considered to be new if it does not" 
+            \item \texttt{formPartOfTheStateOfTheArt} with the text "form part of the state of the art"
+        \end{itemize}
+        \item We now apply relations on all the extracted atoms to form a formula $\neg$\texttt{newInvention} $\Leftarrow$ \texttt{formPartOfTheStateOfTheArt}
+    \end{enumerate}
+\end{example}
+
+
+\begin{claim}
+The formalization process produces a formula which is isomorphic to the original legal text.
+\end{claim}
+\begin{proof}
+    Idea: We need to show that the formalization process is injective and surjective, as well as preserve the structure.
+    {\bf Injectiveness sketch:} two different texts can be translated into the same formula only if the meaning of the atoms and connectives is the same.
+    {\bf Surjective sketch:} clearly for every formula in the above language, there is a legal text which can be formalized using the method.
+    {\bf Preserve structure sketch:} All atoms in the text are extracted. All relationships between the formulas are extracted. All elements are extracted to subformulas in the same relative position. 
+\end{proof}

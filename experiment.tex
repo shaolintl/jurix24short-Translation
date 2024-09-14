@@ -1,0 +1,50 @@
+To check if the proposed language can be leveraged by a large language model, we have designed an experiment for a subset of regulations taken from the European Patent Convention.
+This experiment employed the manual conversion of the following regulations: provisions 52, 53 and 54
+ as well as footnotes 40, 41, 42, 43 and 44. The conversion of these regulations
+ were taken as the \textit{demonstrations} for the LLM following the in-context learning approach \cite{dong2024surveyincontextlearning}.
+ Next the model was tasked to 
+ convert provisions 55, 56, 57 and footnotes 45, 46 and 47. The demonstrations 
+ included two elements -- the first part included only the atoms appearing in the 
+ provisions and footnotes. The second part included the formula representing the regulation including all and only
+ the atoms from the first part. This construction worked as a simplified form of Chain-of-thought demonstration
+ \cite{jason2022chain}.
+This form in fact gave better results than an approach when only the final formulas were provided as
+ the demonstrations.
+
+ We have used the following system prompt:
+\begin{verbatim}
+Your task is to translate legal sentences into logical formulas.
+The text is prefixed with Q.
+If the text is a provision, you need to extract A1 and A2 as follows:
+You first need to extract all the terms and put them in A1.
+You then need to apply logical operators over only and all the terms 
+extracted in A1 and put them in A2.
+If the text is a footnote, only extract A2. If the number of a footnote
+appears in Q or in a previous relevant Q before a substances denoted 
+with a number and letter,  ensure to apply it only to this number and 
+letter in A2.
+When extracting terms, ensure to consider the whole text so far in 
+order to reuse existing terms if possible, even when the meaning 
+or text are a bit different.
+Ensure to extract exceptions when possible.
+You are given a set of examples each containing Q, A1 and A2. 
+Your task is to produce A1 and A2 for a given Q.     
+\end{verbatim}
+
+Before submitting the provisions and footnotes to the model we have also manually
+constructed the expected conversions of the provisions into the prepositions.
+
+The output pf the model regarding the propositions has the following properties. The LLM
+has a tendency to simplify the propositions, which does not affect the isomorphism as long as the meaning is the same. There was one concept which in the manual conversion was represented by one term but in the model's output was divided into two. In this case, both versions were correct. In the remaining clauses, the propositions were identical (in terms of the number of propositions). Since
+ there is a mapping from the atoms to the actual text of the regulation, this is not an issue and
+ we can conclude that the first step of the conversion is achievable with an LLM.
+
+Regarding the footnotes, there wasn't any difference in the manual and automatic conversion.
+
+Regarding the generation of the logical formulas, there were differences, but in most of the cases the structure was very similar. All formulas were syntactically sound. The observed differences included invalid application of 
+a qualifier (1 case) and invalid structure of the formula (1 case). Otherwise the formalization was very similar to the one created manually.
+
+
+
+
+

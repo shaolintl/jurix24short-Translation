@@ -1,0 +1,26 @@
+Artificial Intelligence is significantly transforming the legal field, including areas like legal analytics \cite{alschner2021ai}, client onboarding, market research \cite{martin2019marketing}, and other machine learning applications \cite{surden2021machine}.
+
+Nevertheless, the use of Large Language Models (LLMs) in various legal applications suffer from two main drawbacks.
+Foremost, the statistical approach behind the use of LLMs prevents accurate results and also impairs demonstrability \cite{cooper2022accountability} - two properties of high importance in the legal domain.
+Second, LLMs are based on a textual representation, and while encoding techniques improve the semantic analysis of these texts \cite{vaswani2017attention},
+the result is a still far cry from an equivalent work done by humans \cite{janatian2023text}.
+
+In \cite{janatian2023text}, the authors have attempted to improve the formalization process by using GPT-4.
+Their task was to extract a logical structure from a specific kind of legal sentences.
+The logical structure considered is a flow diagram where nodes represent yes/no questions and edges positive and negative answers.
+For this task, the authors focused on either stand-alone articles or paragraphs containing criteria and conclusions.
+The experiments in the paper show promising results - $67.5\%$ have correctly captured the logical meaning of the text, while $40\%$
+could be directly used in a formalization without further changes from humans.
+
+One formalization challenge which was not dealt with in the above work was the identification of cross references between articles.
+Such cross-references are very common in legislation and represent exceptions, definitions, further conditions, etc.
+
+The on-going work described in this paper tries to continue the above effort and focuses on the following question
+
+\begin{itemize}
+  \item {\bf RQ:} Can an isomorphism-preserving process affect the quality of formalization?
+\end{itemize}
+
+To this aim, we have defined a formalization language and a process, which we believe, facilitate the automated formalization done by LLMs.
+
+The first part of the paper focuses on the presentation of this language properties and the methodology taken. The second part presents a first evaluation of the method. We conclude with future steps towards automatic formalization of legal documents.

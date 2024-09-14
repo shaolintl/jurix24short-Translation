@@ -1,0 +1,88 @@
+
+\documentclass{IOS-Book-Article}
+
+\usepackage{mathptmx}
+
+%%%%%%%%%added by Ryuta on 5.Sep.2024
+\usepackage{tikz}  
+\usetikzlibrary{matrix,arrows.meta,fit,decorations.markings,intersections,arrows,positioning,shapes}  
+\usepackage{tcolorbox} 
+\tcbuselibrary{raster,skins}
+\usepackage{rotating}    
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+    \node[shape=circle,draw,inner sep=0.5pt] (char) {#1};}}    
+\usepackage{tikz-cd}  
+%\usetikzlibrary{matrix,fit,decorations.pathmorphing,intersections,arrows,positioning,shapes.misc}   
+\usepackage{amsmath,amsthm} 
+\newtheorem{note}{Note}
+\newtheorem{definition}{Definition}
+\newtheorem{example}[definition]{Example}
+\newtheorem{claim}[definition]{Claim}
+
+%%%%%%%%%
+
+
+\usepackage{soul}\setuldepth{article}
+%\usepackage{times}
+%\normalfont
+%\usepackage[T1]{fontenc}
+%\usepackage[mtplusscr,mtbold]{mathtime}
+%
+\def\hb{\hbox to 11.5 cm{}}
+
+\begin{document}
+
+\pagestyle{headings}
+\def\thepage{}
+\begin{frontmatter}              % The preamble begins here.
+
+
+%\pretitle{Pretitle}
+\title{Automated Isomorphism-preserving Formalization of Legal Texts - An Experiment}
+
+%\subtitle{Subtitle}
+
+\author[A]{\fnms{Tomer} \snm{Libal}\orcid{0000-0003-3261-0180}%
+\thanks{Supported by the Luxembourg National Research Fund under grant C22/IS/17228828/ExAlLe}},
+\author[B]{\fnms{Aleksander} \snm{Smywiński-Pohl}\orcid{0000-0001-6684-0748}
+\thanks{Supported by the Polish National Centre for Research
+and Development – Pollux Program under Grant WM/POLLUX11/5/2023
+titled ,,Examples based AI Legal Guidance''.}}
+\runningauthor{T. Libal \and A. Smywiński-Pohl}
+\address[A]{Luxembourg University, Luxembourg}
+\address[B]{AGH University of Krakow, Poland}
+
+\begin{abstract}
+    Formally representing legislation allows the creation of legal expert systems, among others. Nevertheless, the process itself is laborious
+    and efforts in automation had so far only partial success. 
+    In this paper we focus on the challenge of increasing the quality of the automated translation by large language models. We define some criteria - isomorphism between the text and the formalization - which we believe,
+    show promise of such an enhanced result. We demonstrate this ongoing work on a simple experiment.
+\end{abstract}
+
+\begin{keyword}
+large language models \sep legal technology \sep artificial intelligence \sep legal formalization
+\end{keyword}
+\end{frontmatter}
+%\thispagestyle{empty}
+%\pagestyle{empty}
+
+\section{Introduction}
+\label{sec:intro}
+\input{intro}
+
+\section{Method}
+\label{sec:formalization}
+\input{formalization}
+
+\section{Experiment}
+\label{sec:experiment}
+\input{experiment}
+
+\section{Future Work}
+\label{sec:conc}
+\input{conc}
+
+\bibliographystyle{vancouver}
+\bibliography{references}
+
+\end{document}
